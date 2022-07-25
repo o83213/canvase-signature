@@ -36,7 +36,7 @@ const clearPad = () => {
 // clearButton
 clearButton.addEventListener(
   "click",
-  () => {
+  (e) => {
     clearPad();
   },
   { passive: true }

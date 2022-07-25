@@ -1,4 +1,5 @@
 {
+  "homepage": "https://o83213.github.io/canvase-signature",
   "name": "canvas-signature",
   "version": "1.0.0",
   "description": "A canvas signature testing",
@@ -10,5 +11,8 @@
     "signature"
   ],
   "author": "Brian",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
+  }
 }
