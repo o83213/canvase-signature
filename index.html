@@ -5,22 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Signature Web</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="styles/general.css" />
     <script defer src="app.js"></script>
   </head>
   <body>
-    <form class="signature-pad-form" action="#" method="post">
-      <h1>Signature Pad</h1>
-      <p>A simple signature test</p>
-      <p>
-        <b>Sign here:</b>
-      </p>
-      <canvas height="100" width="300" class="signature-pad"></canvas>
-      <p>
-        <button href="#" class="clear-button">Clear</button>
-      </p>
-      <button class="submit-button" type="submit">Submit</button>
-      <img height="100" width="300" class="signature-result" />
+    <form class="signature-pad-form">
+      <header>
+        <h1>Signature Pad</h1>
+        <p>A simple signature test</p>
+        <p>
+          <b>Sign here:</b>
+        </p>
+      </header>
+      <div class="canvas-container">
+        <canvas height="100" width="300" class="signature-pad"></canvas>
+        <button class="btn clear-button">Clear</button>
+        <button class="btn submit-button" id="submitBtn">Submit</button>
+      </div>
+      <div class="footer">
+        <button class="btn hidden" id="downloadBtn">Download</button>
+      </div>
     </form>
   </body>
 </html>

@@ -1,6 +1,13 @@
 const canvas = document.querySelector("canvas");
 const form = document.querySelector(".signature-pad-form");
 const clearButton = document.querySelector(".clear-button");
+const downloadButton = document.getElementById("downloadBtn");
+const submitButton = document.getElementById("submitBtn");
+const footer = document.querySelector(".footer");
+//
+const blank = document.createElement("canvas");
+blank.width = canvas.width;
+blank.height = canvas.height;
 const ctx = canvas.getContext("2d");
 let writingMode = false;
 const checkIsMobile = () => {
@@ -10,37 +17,65 @@ const checkIsMobile = () => {
     )
   ) {
     // true for mobile device
-    alert("On Mobile Device");
+    console.log("On Mobile Device");
     return true;
   } else {
     // false for not mobile device
-    alert("On PC");
+    console.log("On PC");
     return false;
   }
 };
 let iSMobile = checkIsMobile();
-// create imageBlock
-const image = document.querySelector(".signature-result");
-form.appendChild(image);
+
+//
+const isCanvasEmpty = (canvas) => {
+  return canvas.toDataURL() === blank.toDataURL();
+};
 // submit Handler
-form.addEventListener("submit", (event) => {
+submitButton.addEventListener("click", (event) => {
   event.preventDefault();
+  if (isCanvasEmpty(canvas)) {
+    alert("還沒簽名喔🤣");
+    return;
+  }
+  downloadButton.classList.remove("hidden");
   const imageURL = canvas.toDataURL();
-  image.src = imageURL;
-  clearPad();
+  let image = footer.querySelector("img");
+  if (image) image.src = imageURL;
+  else {
+    image = document.createElement("img");
+    image.src = imageURL;
+    footer.insertAdjacentElement("afterbegin", image);
+  }
+  // clearPad();
 });
 // clearPad
 const clearPad = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const image = footer.querySelector("img");
+  if (image) {
+    image.remove();
+  }
 };
 // clearButton
-clearButton.addEventListener(
-  "click",
-  (e) => {
-    clearPad();
-  },
-  { passive: true }
-);
+clearButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  clearPad();
+  downloadButton.classList.add("hidden");
+});
+
+// downloadBtn
+downloadButton.addEventListener("click", async (event) => {
+  event.preventDefault();
+  const image = footer.querySelector("img");
+  const imageURL = image.src;
+  // create download link
+  const link = document.createElement("a");
+  link.href = imageURL;
+  link.download = "signature";
+  link.click();
+});
+
 // getTargetPosition
 const getTargetPosition = (event) => {
   let positionX = 0;
@@ -79,11 +114,11 @@ ctx.lineWidth = 3;
 ctx.lineJoin = ctx.lineCap = "round";
 // switch between Pc and mobile
 if (iSMobile) {
-  canvas.addEventListener("touchstart", handlePointerDown, { passive: true });
-  canvas.addEventListener("touchend", handlePointerUp, { passive: true });
-  canvas.addEventListener("touchmove", handlePointerMove, { passive: true });
+  canvas.addEventListener("touchstart", handlePointerDown);
+  canvas.addEventListener("touchend", handlePointerUp);
+  canvas.addEventListener("touchmove", handlePointerMove);
 } else {
-  canvas.addEventListener("pointerdown", handlePointerDown, { passive: true });
-  canvas.addEventListener("pointerup", handlePointerUp, { passive: true });
-  canvas.addEventListener("pointermove", handlePointerMove, { passive: true });
+  canvas.addEventListener("pointerdown", handlePointerDown);
+  canvas.addEventListener("pointerup", handlePointerUp);
+  canvas.addEventListener("pointermove", handlePointerMove);
 }
